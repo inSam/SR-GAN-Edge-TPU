@@ -71,6 +71,11 @@ def psnr(x1, x2):
 
 
 def pixel_shuffle(scale):
+    #def closure(x):
+    #    #print(tf.shape(x))
+    #    B,H,W,N = tf.shape(x)# in form of BHWN
+    #    return tf.reshape(x, [B, H*scale, W*scale, N//(scale**2)])
     return lambda x: tf.nn.depth_to_space(x, scale)
+    #return closure
 
 
