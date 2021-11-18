@@ -26,7 +26,7 @@ class TransposeConv(Layer):
                self.num_filters, input_shape[-1]]         
         output_size_h = (input_shape[1]- 1)*self.stride + self.filter_size  # output height with 'VALID' padding
         output_size_w = (input_shape[2]- 1)*self.stride + self.filter_size  # output with with 'VALID' padding
-        self.output_shape = tf.stack([self.batch_size,                      # output tensor shape
+        self.out_shape = tf.stack([self.batch_size,                      # output tensor shape
                                 output_size_h, output_size_w,
                                 self.num_filters])
         self.filters = self.add_weight(                        # filter weights 
@@ -40,7 +40,7 @@ class TransposeConv(Layer):
         )    
 
     def call(self, inputs):
-        transconv = tf.nn.conv2d_transpose(inputs, self.filters, self.output_shape, self.stride, padding='VALID', data_format='NHWC', name=self.layer_name)
+        transconv = tf.nn.conv2d_transpose(inputs, self.filters, self.out_shape, self.stride, padding='VALID', data_format='NHWC', name=self.layer_name)
         return tf.nn.bias_add(transconv, self.b, data_format='NHWC')  # add bias
 
 def upsample(x_in, num_filters):
